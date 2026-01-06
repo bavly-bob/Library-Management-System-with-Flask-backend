@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Transactions</h2>
+<table class="table">
+  <thead><tr><th>User</th><th>Book</th><th>Borrowed</th><th>Due</th><th>Returned</th></tr></thead>
+  <tbody>
+    {% for t in txs %}
+      <tr>
+        <td>{{ t.user.username }}</td>
+        <td>{{ t.book.title }}</td>
+        <td>{{ t.borrowed_at.strftime('%Y-%m-%d') }}</td>
+        <td>{{ t.due_date.strftime('%Y-%m-%d') }}</td>
+        <td>{{ t.returned_at.strftime('%Y-%m-%d') if t.returned_at else "-" }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<button type="button" class="btn btn-secondary" onclick="window.location.href='{{ url_for('main.index') }}'">
+  Back to Main Page
+</button>
+{% endblock %}

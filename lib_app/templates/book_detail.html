@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ book.title }}</h2>
+<p><strong>Author:</strong> {{ book.author }}</p>
+<p><strong>Status:</strong> {{ "Available" if book.available else "Borrowed" }}</p>
+
+{% if current_user.is_authenticated %}
+  {% if book.available %}
+    <form method="post" action="{{ url_for('main.borrow_book', book_id=book.id) }}">
+      <button class="btn btn-primary">Borrow</button>
+    </form>
+  {% else %}
+    <form method="post" action="{{ url_for('main.return_book', book_id=book.id) }}">
+      <button class="btn btn-warning">Return</button>
+    </form>
+  {% endif %}
+{% else %}
+  <p><a href="{{ url_for('auth.login') }}">Login</a> to borrow.</p>
+{% endif %}
+<button type="button" class="btn btn-secondary" onclick="window.location.href='{{ url_for('main.index') }}'">
+  Back to Main Page
+</button>
+{% endblock %}
